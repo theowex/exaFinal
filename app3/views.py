@@ -1,28 +1,45 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
-lista_personas = [
-    ['Alexander','Segovia','24-01-1997','Estudiante'],
-    ['Javier','Hilario','25-01-1992','Egresado'],
-    ['Martin','Leyva','13-06-1998','Estudiante'],
-]
+from .models import personas, datosAdicionales
 
 # Create your views here.
 def index(request):
+    personasTotales = personas.objects.all()
     return render(request,'index.html',{
-        'lista_personas':lista_personas
+        'personasTotales':personasTotales
     })
 
 def nuevoUsuario(request):
     if request.method == 'POST':
-        print(request.POST)
         nombre = request.POST.get('nombre')
         apellido = request.POST.get('apellido')
         fechaNacimiento = request.POST.get('fecha')
-        print(nombre)
-        print(apellido)
-        print(fechaNacimiento)
-        lista_personas.append([nombre,apellido,fechaNacimiento,'Estudiante'])
+        tipoPersona = request.POST.get('tipo')
+        codigoPersona = request.POST.get('codigo')
+        telefono = request.POST.get('telefono')
+        residencia = request.POST.get('residencia')
+        
+        personaCreada = personas.objects.create(
+            nombre=nombre,
+            apellido=apellido,
+            fecha=fechaNacimiento,
+            tipoPersona=tipoPersona,
+            codigoPersona=codigoPersona
+        )
+
+        datosAdicionales.objects.create(
+            telefono=telefono,
+            residencia=residencia,
+            personaRel=personaCreada
+        )
+
         return HttpResponseRedirect(reverse('app3:index'))
     return render(request,'nuevoUsuario.html')
+
+def verTareas(request,idPersona):
+    personaInfo = personas.objects.get(id=idPersona)
+    tareasxUsuario = personaInfo.tareasxpersona_set.all()
+    return render(request,'verTareas.html',{
+        'tareasxUsuario':tareasxUsuario
+    })

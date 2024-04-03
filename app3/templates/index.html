@@ -33,16 +33,22 @@
                     <th>Apellido</th>
                     <th>Fecha de nacimiento</th>
                     <th>Tipo de persona</th>
-                    <th>Egresar</th>
+                    <th>Codigo de persona</th>
+                    <th>Telefono</th>
+                    <th>Residencia</th>
+                    <th>Ver tareas</th>
                 </thead>
                 <tbody>
-                    {% for persona in lista_personas %}
+                    {% for personaInfo in personasTotales %}
                     <tr>
-                        <td>{{ persona.0 }}</td>
-                        <td>{{ persona.1 }}</td>
-                        <td>{{ persona.2 }}</td>
-                        <td>{{ persona.3 }}</td>
-                        <td></td>
+                        <td>{{ personaInfo.nombre }}</td>
+                        <td>{{ personaInfo.apellido }}</td>
+                        <td>{{ personaInfo.fecha }}</td>
+                        <td>{{ personaInfo.tipoPersona }}</td>
+                        <td>{{ personaInfo.codigoPersona }}</td>
+                        <td>{{ personaInfo.datosadicionales.telefono }}</td>
+                        <td>{{ personaInfo.datosadicionales.residencia }}</td>
+                        <td><a href="{% url 'app3:verTareas' personaInfo.id %}"><button>Ver</button></a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
