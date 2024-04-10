@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import datosUsuario, tareasSistem
+from .models import datosUsuario, tareasSistem, comentarioTarea
 import datetime
+import json
 
 # Create your views here.
 def index(request):
@@ -92,3 +93,52 @@ def finalizarTarea(request,idTarea):
     tareaObj.estadoTarea = 'FINALIZADO'
     tareaObj.save()
     return HttpResponseRedirect(reverse('app4:perfilUsuario'))
+
+def ejemploJs(request):
+    return render(request,'ejemploJs.html')
+
+def devolverMensaje(request):
+    nombre = request.GET.get('nombre')
+    apellido = request.GET.get('apellido')
+    return JsonResponse({
+        'datosRecibidos':{
+            'nombre':nombre,
+            'apellido':apellido,
+        },
+        'mensaje':'Hola desde el servidor Django'
+    })
+
+def conseguirInfoTarea(request):
+    comentariosTotales = []
+    idTarea = request.GET.get('idTarea')
+    tareaSeleccionada = tareasSistem.objects.get(id=idTarea)
+    comentariosTarea = tareaSeleccionada.comentariotarea_set.all().order_by('id')
+    for comentarioInfo in comentariosTarea:
+        comentariosTotales.append([
+            str(comentarioInfo.usuarioRelacionado.first_name),
+            comentarioInfo.comentario
+        ])
+    return JsonResponse({
+        'idTarea':tareaSeleccionada.id,
+        'nombreTarea':tareaSeleccionada.nombreTarea,
+        'descripcionTarea':tareaSeleccionada.descripcionTarea,
+        'estadoTarea':tareaSeleccionada.estadoTarea,
+        'fechaFin':tareaSeleccionada.fechaFin.strftime("%d-%m-%Y"),
+        'fechaInicio':tareaSeleccionada.fechaInicio.strftime("%d-%m-%Y"),
+        'comentariosTotales':comentariosTotales
+    })
+
+def publicarComentario(request):
+    datos = json.load(request)
+    idTarea = datos.get('idTarea')
+    comentario = datos.get('comentario')
+    usuarioRelacionado = request.user
+    tareaRelacionada = tareasSistem.objects.get(id=idTarea)
+    comentarioTarea.objects.create(
+        tareaRelacionada=tareaRelacionada,
+        usuarioRelacionado=usuarioRelacionado,
+        comentario=comentario
+    )
+    return JsonResponse({
+        'resp':'ok'
+    })

@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         <!--Importar scripts de javascript-->
-        <script src="#"></script>
+        <script src="{% static 'informacionUsuario.js' %}"></script>
     </head>
     <body>
         <div class="bg-primary">
@@ -136,7 +136,7 @@
                                 <td>{{ tareaInfo.fechaInicio }}</td>
                                 <td>{{ tareaInfo.fechaFin }}</td>
                                 <td>{{ tareaInfo.estadoTarea }}</td>
-                                <td><button data-bs-toggle="modal" data-bs-target="#detalleTarea" id="{{ tarea.id }}" class="btn btn-info"><i class="fa-solid fa-eye"></i></button></td>
+                                <td><button data-bs-toggle="modal" data-bs-target="#detalleTarea" id="{{ tareaInfo.id }}" onclick="cargarInformacionTarea(this.id)" class="btn btn-info"><i class="fa-solid fa-eye"></i></button></td>
                                 <td><a class="btn btn-warning" href="{% url 'app4:finalizarTarea' tareaInfo.id %}"><i class="fa-solid fa-forward-step"></i></a></td>
                                 <td><a class="btn btn-danger" href="#"><i class="fa-solid fa-trash"></i></a></td>
                             </tr>
@@ -212,6 +212,12 @@
             <div class="modal-body">
                 <h1 style="display: none;" id="indTarea"></h1>
                 <div class="row form-group justify-content-around mb-3">
+                    <div class="col-12">
+                        <label>Nombre de la tarea</label>
+                        <input class="form-control" type="text" readonly id="nombreTareaDetalle">
+                    </div>
+                </div>
+                <div class="row form-group justify-content-around mb-3">
                     <div class="col-4">
                         <label>Fecha de inicio</label>
                         <input class="form-control" type="text" readonly id="fechaInicioDetalle">
@@ -264,7 +270,7 @@
                         <input class="form-control" type="text" id="comentarioUsuario">
                     </div>
                     <div class="col-2">
-                        <button class="btn btn-info">Comentar</button>
+                        <button class="btn btn-info" onclick="enviarComentario()">Comentar</button>
                     </div>
                 </div>
             </div>

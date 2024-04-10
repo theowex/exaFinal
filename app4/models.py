@@ -18,3 +18,8 @@ class tareasSistem(models.Model):
     estadoTarea = models.CharField(max_length=16, null=True, blank=True)
     usuarioCreador = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     usuarioResponsable = models.ForeignKey(datosUsuario, on_delete=models.SET_NULL, null=True, blank=True)
+
+class comentarioTarea(models.Model):
+    tareaRelacionada = models.ForeignKey(tareasSistem,on_delete=models.CASCADE)
+    usuarioRelacionado = models.ForeignKey(User,on_delete=models.CASCADE)
+    comentario = models.CharField(max_length=512, null=True, blank=True)
