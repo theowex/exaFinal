@@ -142,3 +142,6 @@ def publicarComentario(request):
     return JsonResponse({
         'resp':'ok'
     })
+
+def react1(request):
+    return render(request,'react1.html')

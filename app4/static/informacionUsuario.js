@@ -4,13 +4,14 @@ function cargarInformacionTarea(idTarea)
     fetch(`/conseguirInfoTarea?idTarea=${idTarea}`)
     .then(response => response.json())
     .then(data => {
-        console.log(data)
+        console.log(data.comentariosTotales)
         nombreTareaDetalle = document.getElementById('nombreTareaDetalle')
         fechaInicioDetalle = document.getElementById('fechaInicioDetalle')
         fechaFinDetalle = document.getElementById('fechaFinDetalle')
         estadoTareaDetalle = document.getElementById('estadoTareaDetalle')
         descripcionTareaDetalle = document.getElementById('descripcionTareaDetalle')
         indTarea = document.getElementById('indTarea')
+        comentariosTareaTotales = document.getElementById('comentariosTareaTotales')
 
         nombreTareaDetalle.value = ''
         fechaInicioDetalle.value = ''
@@ -18,6 +19,7 @@ function cargarInformacionTarea(idTarea)
         estadoTareaDetalle.value = ''
         descripcionTareaDetalle.value = ''
         indTarea.innerHTML = ''
+        comentariosTareaTotales.innerHTML = ''
         
         nombreTareaDetalle.value = data.nombreTarea
         fechaInicioDetalle.value = data.fechaInicio
@@ -25,6 +27,22 @@ function cargarInformacionTarea(idTarea)
         estadoTareaDetalle.value = data.estadoTarea
         descripcionTareaDetalle.value = data.descripcionTarea
         indTarea.innerHTML = data.idTarea
+
+        for(let j = 0; j < data.comentariosTotales.length; j++)
+        {
+            seccionComentario = `
+            <div class="row mb-3">
+                <div class="col-3">
+                    ${data.comentariosTotales[j][0]}
+                </div>
+                <div class="col-9">
+                    ${data.comentariosTotales[j][1]}
+                </div>
+            </div>
+            `
+            comentariosTareaTotales.innerHTML = comentariosTareaTotales.innerHTML + seccionComentario
+        }
+
     })
 }
 
@@ -48,6 +66,8 @@ function enviarComentario()
     .then(response => response.json())
     .then(data => {
         console.log(data)
+        cargarInformacionTarea(document.getElementById('indTarea').innerHTML)
+        document.getElementById('comentarioUsuario').value = ''
     })
 }
 
