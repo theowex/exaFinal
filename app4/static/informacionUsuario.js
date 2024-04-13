@@ -90,3 +90,14 @@ function getCookie(name)
     }
     return cookieValue;
 }
+
+function cargarInformacionUsuario(idUsuario)
+{
+    /*
+    PREGUNTA 3
+    Desarrollar la función de javascript que permita consultar la ruta
+    obtenerInformacionUsuario?idUsuario=${idUsuario}
+    Revisar la implementacion realizada en clase para el detalle de las
+    tareas.
+    */
+}

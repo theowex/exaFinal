@@ -13,5 +13,7 @@ urlpatterns = [
     path('devolverMensaje',views.devolverMensaje,name='devolverMensaje'),
     path('conseguirInfoTarea',views.conseguirInfoTarea,name='conseguirInfoTarea'),
     path('publicarComentario',views.publicarComentario,name='publicarComentario'),
-    path('react1',views.react1,name='react1')
+    path('react1',views.react1,name='react1'),
+    path('obtenerDatosUsuario',views.obtenerDatosUsuario,name='obtenerDatosUsuario'),
+    path('actualizarUsuario',views.actualizarUsuario,name='actualizarUsuario')
 ]

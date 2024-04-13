@@ -145,3 +145,28 @@ def publicarComentario(request):
 
 def react1(request):
     return render(request,'react1.html')
+
+def obtenerDatosUsuario(request):
+    idUsuario = request.GET.get('idUsuario')
+    """
+    Pregunta 2
+    Esta funcion devolvera los campos que se necesitan 
+    cargar en la ventana modal para poder ser editados
+    Con el id del usuario se puede obtener el objeto y devolver
+    el objeto Json con la informacion necesaria.
+    """
+    return JsonResponse({
+        'resp':'200'
+    })
+
+def actualizarUsuario(request):
+    """
+    Pregunta 4
+    En esta funcion recibira los datos del formulario de actualizacion de usuario
+    Debe capturar dichos datos, recuerde que en el input con atributo name idUsuario
+    se ha cargado el id del usuario correspondiente lo que le permitira obtener el objeto
+    de la base de datos. Con el objeto capturado modificar los campos respectivos y finalmente
+    ejecutar el metodo save() para su respectiva actualizacion
+    """
+
+    return HttpResponseRedirect(reverse('app4:consolaAdministrador'))
