@@ -96,8 +96,39 @@ function cargarInformacionUsuario(idUsuario)
     /*
     PREGUNTA 3
     Desarrollar la función de javascript que permita consultar la ruta
-    obtenerInformacionUsuario?idUsuario=${idUsuario}
+    obtenerDatosUsuario?idUsuario=${idUsuario}
     Revisar la implementacion realizada en clase para el detalle de las
     tareas.
     */
+    console.log("Se cargara la informacion del usuario %s",idUsuario)
+    fetch(`obtenerDatosUsuario?idUsuario=${idUsuario}`)
+    .then(response => response.json())
+    .then(data => {
+        usernameUsuarioEdit = document.getElementById('usernameUsuarioEdit')
+        nombreUsuarioEdit = document.getElementById('nombreUsuarioEdit')
+        apellidoUsuarioEdit = document.getElementById('apellidoUsuarioEdit')
+        profesionUsuarioEdit = document.getElementById('profesionUsuarioEdit')
+        emailUsuarioEdit = document.getElementById('emailUsuarioEdit')
+        nroCelularEdit = document.getElementById('nroCelularEdit')
+        perfilUsuarioEdit = document.getElementById('perfilUsuarioEdit')
+        idUsuarioEdit = document.getElementById('idUsuario')
+
+        usernameUsuarioEdit.value = ''
+        nombreUsuarioEdit.value = ''
+        apellidoUsuarioEdit.value = ''
+        profesionUsuarioEdit.value = ''
+        emailUsuarioEdit.value = ''
+        nroCelularEdit.value = ''
+        perfilUsuarioEdit.value = ''
+        idUsuarioEdit.value = ''
+        
+        usernameUsuarioEdit.value = data.username
+        nombreUsuarioEdit.value = data.first_name
+        apellidoUsuarioEdit.value = data.last_name
+        profesionUsuarioEdit.value = data.profesionUsuario
+        emailUsuarioEdit.value = data.email
+        nroCelularEdit.value = data.nroCelular
+        perfilUsuarioEdit.value = data.perfilUsuario
+        idUsuarioEdit.value = idUsuario
+    })
 }

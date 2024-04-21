@@ -155,8 +155,15 @@ def obtenerDatosUsuario(request):
     Con el id del usuario se puede obtener el objeto y devolver
     el objeto Json con la informacion necesaria.
     """
+    usuarioSeleccionado = User.objects.get(id=idUsuario)
     return JsonResponse({
-        'resp':'200'
+        'username': usuarioSeleccionado.username,
+        'first_name': usuarioSeleccionado.first_name,
+        'last_name': usuarioSeleccionado.last_name,
+        'profesionUsuario': usuarioSeleccionado.datosusuario.profesionUsuario,
+        'email': usuarioSeleccionado.email,
+        'nroCelular': usuarioSeleccionado.datosusuario.nroCelular,
+        'perfilUsuario': usuarioSeleccionado.datosusuario.perfilUsuario
     })
 
 def actualizarUsuario(request):
@@ -168,5 +175,15 @@ def actualizarUsuario(request):
     de la base de datos. Con el objeto capturado modificar los campos respectivos y finalmente
     ejecutar el metodo save() para su respectiva actualizacion
     """
-
+    print(request.POST.get('idUsuario'))
+    idUsuario = request.POST.get('idUsuario')
+    usuarioSeleccionado = User.objects.get(id=idUsuario)
+    print(usuarioSeleccionado.username)
+    usuarioSeleccionado.first_name = request.POST.get('first_name')
+    usuarioSeleccionado.last_name = request.POST.get('last_name')
+    usuarioSeleccionado.datosusuario.profesionUsuario = request.POST.get('profesionUsuario')
+    usuarioSeleccionado.datosusuario.nroCelular = request.POST.get('nroCelular')
+    usuarioSeleccionado.datosusuario.perfilUsuario = request.POST.get('perfilUsuario')
+    usuarioSeleccionado.save()
+    usuarioSeleccionado.datosusuario.save()
     return HttpResponseRedirect(reverse('app4:consolaAdministrador'))
